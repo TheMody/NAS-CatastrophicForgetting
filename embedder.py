@@ -176,7 +176,7 @@ class NLP_embedder(nn.Module):
         for i in range(math.ceil(len(x) / self.batch_size)):
             ul = min((i+1) * self.batch_size, len(x))
             batch_x = x[i*self.batch_size: ul]
-            batch_x = self.tokenizer(batch_x, return_tensors="pt", padding=self.padding, max_length = 196, truncation = True)
+            batch_x = self.tokenizer(batch_x, return_tensors="pt", padding=self.padding, max_length = 256, truncation = True)
             device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
             batch_x = batch_x.to(device)
             batch_x = self(batch_x)

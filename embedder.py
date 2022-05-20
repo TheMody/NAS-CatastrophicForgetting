@@ -35,6 +35,20 @@ class CosineWarmupScheduler(optim.lr_scheduler._LRScheduler):
             lr_factor *= epoch * 1.0 / self.warmup
         return lr_factor
     
+class CosineScheduler(optim.lr_scheduler._LRScheduler):
+
+    def __init__(self, optimizer, max_iters):
+        self.max_num_iters = max_iters
+        super().__init__(optimizer)
+
+    def get_lr(self):
+        lr_factor = self.get_lr_factor(epoch=self.last_epoch)
+        return [base_lr * lr_factor for base_lr in self.base_lrs]
+
+    def get_lr_factor(self, epoch):
+        lr_factor = 0.5 * (1 + np.cos(np.pi * epoch / self.max_num_iters))
+        return lr_factor
+    
 
 
 class NLP_embedder(nn.Module):
@@ -91,8 +105,19 @@ class NLP_embedder(nn.Module):
                         if i == args.number_of_diff_lrs-1:
                             paramlist.append(param)
                          #   print("included", name , "in", i)
-                    
-            self.optimizer.append(optim.Adam(paramlist, lr=args.opts[i]["lr"] ))
+            #"adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad"
+            if args.opts[i]["opt"] == "adam":        
+                self.optimizer.append(optim.Adam(paramlist, lr=args.opts[i]["lr"] ))
+            if args.opts[i]["opt"] == "radam":        
+                self.optimizer.append(optim.RAdam(paramlist, lr=args.opts[i]["lr"] ))
+            if args.opts[i]["opt"] == "sgd":        
+                self.optimizer.append(optim.SGD(paramlist, lr=args.opts[i]["lr"] ))
+            if args.opts[i]["opt"] == "rmsprop":        
+                self.optimizer.append(optim.RMSprop(paramlist, lr=args.opts[i]["lr"] ))
+            if args.opts[i]["opt"] == "adadelta":        
+                self.optimizer.append(optim.Adadelta(paramlist, lr=args.opts[i]["lr"] ))
+#             if args.opts[i]["opt"] == "adagrad":        
+#                 self.optimizer.append(optim.Adagrad(paramlist, lr=args.opts[i]["lr"] ))
 #         else:
 #             self.optimizer = optim.Adam(self.parameters(), lr=args.opts[0]["lr"] )
         self.softmax = torch.nn.Softmax(dim=1)
@@ -119,9 +144,24 @@ class NLP_embedder(nn.Module):
         
         self.scheduler =[]
         for i in range(self.args.number_of_diff_lrs):
-            self.scheduler.append(CosineWarmupScheduler(optimizer= self.optimizer[i], 
+            #"warmcosinestarting", "expdecay", "cosinedecay", , "lindecay"
+            if self.args.opts[i]["sched"] == "warmcosinestarting":        
+                self.scheduler.append(CosineWarmupScheduler(optimizer= self.optimizer[i], 
                                                warmup = math.ceil(len(x)*epochs *0.1 / self.batch_size) ,
                                                 max_iters = math.ceil(len(x)*epochs  / self.batch_size)))
+            if self.args.opts[i]["sched"] == "cosinedecay":        
+                self.scheduler.append(CosineScheduler(optimizer= self.optimizer[i],
+                                                max_iters = math.ceil(len(x)*epochs  / self.batch_size)))
+            if self.args.opts[i]["sched"] == "lindecay":        
+                self.scheduler.append(torch.optim.lr_scheduler.LinearLR(optimizer= self.optimizer[i],
+                                    total_iters = math.ceil(len(x)*epochs  / self.batch_size),
+                                     start_factor = 1.0,
+                                    end_factor = 0.001)
+                )
+            if self.args.opts[i]["sched"] == "expdecay":        
+                self.scheduler.append(torch.optim.lr_scheduler.ExponentialLR(optimizer= self.optimizer[i],
+                                                                        gamma = 0.9999)
+                )
         
         accuracy = None
         for e in range(epochs):
@@ -155,7 +195,7 @@ class NLP_embedder(nn.Module):
                     accuracy = self.evaluate(X_val, Y_val)
                     print("accuracy after", e, "epochs:", float(accuracy.cpu().numpy()), "time per epoch", time.time()-start)
                     if reporter != None:
-                        reporter(objective=float(accuracy.cpu().numpy()), epoch=e+1)
+                        reporter(objective=float(accuracy.cpu().numpy()) / 2.0, epoch=e+1)
                 
                 
 

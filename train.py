@@ -49,7 +49,7 @@ def train(args, config):
                 return
         args = dummy()
         args.number_of_diff_lrs = 1
-        args.opts = [{"lr": 2e-5}]
+        args.opts = [{"lr": 2e-5, "opt" : "adam", "sched": "warmcosinestarting"}]
         num_classes = 2
         if "mnli" in dataset:
             num_classes = 3
@@ -65,7 +65,7 @@ def train(args, config):
         print("training model on first dataset", dataset)
         model.fit(X_train, Y_train, epochs=max_epochs)
         accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-        print("acuraccy:", accuracy)
+        print("acuraccy on first ds:", accuracy)
      #   print("loading dataset")
         X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
         print("training model  on second ds", dataset2)
@@ -74,7 +74,7 @@ def train(args, config):
         print("acuraccy on second ds:", accuracy)
      #   print("evaluating")
         accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-        print("acuraccy:", accuracy)
+        print("acuraccy after forgetting on first ds:", accuracy)
         torch.cuda.empty_cache()
     
     def train_fn():
@@ -85,54 +85,56 @@ def train(args, config):
                  opts = ag.space.List(
                      ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                       #  opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                       #  sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                       #  opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                       #  sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                       #  opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                        # sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                        # opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                        # sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                        # opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                        # sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                       #  opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                       #  sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                        # opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                        # sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                       #  opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                        # sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          ),
-                     ag.space.Dict(
+                    ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                        # opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                         #sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay",  "lindecay")
                          )
+                   
+                    
                      )
                  
                  )

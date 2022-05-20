@@ -43,6 +43,7 @@ def train(args, config):
 
         
     if baseline :
+        print("running baseline")
         class dummy():
             def __init__(self):
                 return
@@ -61,13 +62,16 @@ def train(args, config):
         model = model.to(device)
     #    print("loading dataset")
         X_train, X_val, X_test, Y_train, Y_val, Y_test = load_data(name=dataset)
-        print("training model on first dataset")
+        print("training model on first dataset", dataset)
         model.fit(X_train, Y_train, epochs=max_epochs)
-        
+        accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
+        print("acuraccy:", accuracy)
      #   print("loading dataset")
-        X_train, _, _, Y_train, _, _ = load_data(name=dataset2)
-        print("training model  on second ds")
+        X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
+        print("training model  on second ds", dataset2)
         model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
+        accuracy = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
+        print("acuraccy on second ds:", accuracy)
      #   print("evaluating")
         accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
         print("acuraccy:", accuracy)
@@ -77,12 +81,12 @@ def train(args, config):
        
         #very ugly
         @ag.args(
-                 number_of_diff_lrs = ag.space.Int(lower=1, upper=10),
+                 number_of_diff_lrs = ag.space.Int(lower=2, upper=10),
                  opts = ag.space.List(
                      ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
-                      #   opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
-                      #   sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
+                         opt = ag.space.Categorical("adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad", "L-BFGS"),
+                         sched = ag.space.Categorical("warmcosinestarting", "expdecay", "cosinedecay", "warmexpdecay", "lindecay", "warmlindecay")
                          ),
                      ag.space.Dict(
                           lr = ag.space.Real(lower=1e-7, upper=1e-3, log=True),
@@ -148,16 +152,20 @@ def train(args, config):
         #    print("loading dataset")
             X_train, X_val, X_test, Y_train, Y_val, Y_test = load_data(name=dataset)
             print("training model on first dataset")
-            model.fit(X_train, Y_train, epochs=max_epochs)
-            
+            model.fit(X_train, Y_train, X_val= X_val,Y_val= Y_val, reporter = reporter, epochs=max_epochs)
+            accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
+            print("acuraccy on first ds:", accuracy)
          #   print("loading dataset")
-            X_train, _, _, Y_train, _, _ = load_data(name=dataset2)
+            X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
             print("training model  on second ds")
             model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
+            accuracy = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
+            print("acuraccy on second ds:", accuracy)
+            
          #   print("evaluating")
             accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-            print("acuraccy:", accuracy)
-            reporter(objective=accuracy)
+            print("acuraccy on first ds after training on second ds:", accuracy)
+            reporter(objective=accuracy, epoch=max_epochs +1)
             
         return run_opaque_box
 
@@ -176,17 +184,31 @@ def train(args, config):
         'debug_log': True}
 
 
-    myscheduler = ag.scheduler.FIFOScheduler(   
+#     myscheduler = ag.scheduler.FIFOScheduler(   
+#             runboxfn,
+#             resource={'num_cpus': 4, 'num_gpus': 1},
+#             searcher='bayesopt',
+#             search_options=search_options,
+#             num_trials=int(config["DEFAULT"]["num_trials"]),
+#             reward_attr=REWARD_ATTR_NAME,
+#             checkpoint=config["DEFAULT"]["directory"] + "/checkpoint.ckp"
+#             # constraint_attr=CONSTRAINT_METRIC_NAME
+#         )
+    myscheduler = ag.scheduler.HyperbandScheduler(   
             runboxfn,
             resource={'num_cpus': 4, 'num_gpus': 1},
             searcher='bayesopt',
             search_options=search_options,
             num_trials=int(config["DEFAULT"]["num_trials"]),
             reward_attr=REWARD_ATTR_NAME,
+            time_attr='epoch',
+            grace_period=1,
+            reduction_factor=3,
+            max_t=max_epochs+1,
+            brackets=1,
             checkpoint=config["DEFAULT"]["directory"] + "/checkpoint.ckp"
             # constraint_attr=CONSTRAINT_METRIC_NAME
         )
-
 
     
   #  Run HPO experiment

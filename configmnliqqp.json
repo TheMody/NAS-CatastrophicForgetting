@@ -1,5 +1,5 @@
 [DEFAULT]
-batch_size = 16
+batch_size = 8
 checkpoint = None
 directory = results/mnliqqp
 seed = 42

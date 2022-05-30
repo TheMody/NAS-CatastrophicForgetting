@@ -106,16 +106,16 @@ class NLP_embedder(nn.Module):
                             paramlist.append(param)
                          #   print("included", name , "in", i)
             #"adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad"
-            if args.opts[i]["opt"] == "adam":        
-                self.optimizer.append(optim.Adam(paramlist, lr=args.opts[i]["lr"] ))
-            if args.opts[i]["opt"] == "radam":        
-                self.optimizer.append(optim.RAdam(paramlist, lr=args.opts[i]["lr"] ))
-            if args.opts[i]["opt"] == "sgd":        
-                self.optimizer.append(optim.SGD(paramlist, lr=args.opts[i]["lr"] ))
-            if args.opts[i]["opt"] == "rmsprop":        
-                self.optimizer.append(optim.RMSprop(paramlist, lr=args.opts[i]["lr"] ))
-            if args.opts[i]["opt"] == "adadelta":        
-                self.optimizer.append(optim.Adadelta(paramlist, lr=args.opts[i]["lr"] ))
+#             if args.opts[i]["opt"] == "adam":        
+            self.optimizer.append(optim.Adam(paramlist, lr=args.opts[i]["lr"] ))
+#             if args.opts[i]["opt"] == "radam":        
+#                 self.optimizer.append(optim.RAdam(paramlist, lr=args.opts[i]["lr"] ))
+#             if args.opts[i]["opt"] == "sgd":        
+#                 self.optimizer.append(optim.SGD(paramlist, lr=args.opts[i]["lr"] ))
+#             if args.opts[i]["opt"] == "rmsprop":        
+#                 self.optimizer.append(optim.RMSprop(paramlist, lr=args.opts[i]["lr"] ))
+#             if args.opts[i]["opt"] == "adadelta":        
+#                 self.optimizer.append(optim.Adadelta(paramlist, lr=args.opts[i]["lr"] ))
 #             if args.opts[i]["opt"] == "adagrad":        
 #                 self.optimizer.append(optim.Adagrad(paramlist, lr=args.opts[i]["lr"] ))
 #         else:
@@ -145,23 +145,23 @@ class NLP_embedder(nn.Module):
         self.scheduler =[]
         for i in range(self.args.number_of_diff_lrs):
             #"warmcosinestarting", "expdecay", "cosinedecay", , "lindecay"
-            if self.args.opts[i]["sched"] == "warmcosinestarting":        
-                self.scheduler.append(CosineWarmupScheduler(optimizer= self.optimizer[i], 
+       #     if self.args.opts[i]["sched"] == "warmcosinestarting":        
+            self.scheduler.append(CosineWarmupScheduler(optimizer= self.optimizer[i], 
                                                warmup = math.ceil(len(x)*epochs *0.1 / self.batch_size) ,
                                                 max_iters = math.ceil(len(x)*epochs  / self.batch_size)))
-            if self.args.opts[i]["sched"] == "cosinedecay":        
-                self.scheduler.append(CosineScheduler(optimizer= self.optimizer[i],
-                                                max_iters = math.ceil(len(x)*epochs  / self.batch_size)))
-            if self.args.opts[i]["sched"] == "lindecay":        
-                self.scheduler.append(torch.optim.lr_scheduler.LinearLR(optimizer= self.optimizer[i],
-                                    total_iters = math.ceil(len(x)*epochs  / self.batch_size),
-                                     start_factor = 1.0,
-                                    end_factor = 0.001)
-                )
-            if self.args.opts[i]["sched"] == "expdecay":        
-                self.scheduler.append(torch.optim.lr_scheduler.ExponentialLR(optimizer= self.optimizer[i],
-                                                                        gamma = 0.9999)
-                )
+#             if self.args.opts[i]["sched"] == "cosinedecay":        
+#                 self.scheduler.append(CosineScheduler(optimizer= self.optimizer[i],
+#                                                 max_iters = math.ceil(len(x)*epochs  / self.batch_size)))
+#             if self.args.opts[i]["sched"] == "lindecay":        
+#                 self.scheduler.append(torch.optim.lr_scheduler.LinearLR(optimizer= self.optimizer[i],
+#                                     total_iters = math.ceil(len(x)*epochs  / self.batch_size),
+#                                      start_factor = 1.0,
+#                                     end_factor = 0.001)
+#                 )
+#             if self.args.opts[i]["sched"] == "expdecay":        
+#                 self.scheduler.append(torch.optim.lr_scheduler.ExponentialLR(optimizer= self.optimizer[i],
+#                                                                         gamma = 0.9999)
+#                 )
         
         accuracy = None
         for e in range(epochs):

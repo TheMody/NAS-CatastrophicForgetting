@@ -7,4 +7,4 @@ epochs = 5
 num_trials = 50
 dataset = sst2
 dataset2 = mrpc
-baseline = True
+baseline = False

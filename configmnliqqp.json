@@ -7,4 +7,4 @@ epochs = 3
 num_trials = 50
 dataset = mnli
 dataset2 = qqp
-baseline = True
+baseline = False

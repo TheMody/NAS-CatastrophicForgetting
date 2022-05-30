@@ -160,13 +160,13 @@ def train(args, config):
             X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
             print("training model  on second ds")
             model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
-            accuracy = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
-            print("acuraccy on second ds:", accuracy)
+            accuracy2 = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
+            print("acuraccy on second ds:", accuracy2)
             
          #   print("evaluating")
             accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
             print("acuraccy on first ds after training on second ds:", accuracy)
-            reporter(objective=accuracy, epoch=max_epochs +1)
+            reporter(objective=accuracy +acccuracy2, epoch=max_epochs +1)
             
         return run_opaque_box
 

@@ -35,9 +35,17 @@ lrs = np.asarray(lrs)
 
 rating = np.asarray(accuracies2) + np.asarray(accuracies3)
 ranking = np.argsort(rating)
+weighted_average = np.zeros(lrs[0].shape)
+for i,element in enumerate(lrs):
+    weighted_average += element * math.pow(2, -1* ranking[i]) /2
+print(weighted_average)
 print(ranking)
 print(ranking.shape[0])
-for i,lr in enumerate(lrs):
-    plt.plot(lr,color = (1,0,0, 1-ranking[i]/ranking.shape[0]))
+
+plt.plot(weighted_average)
+plt.plot(lrs[ranking[np.argmax(ranking)]])
+plt.yscale('log')
+# for i,lr in enumerate(lrs):
+#     plt.plot(lr,color = (1,0,0, 1-ranking[i]/ranking.shape[0]))
 
 plt.show()

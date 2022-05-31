@@ -6,8 +6,8 @@ import numpy as np
 
 opts = 6
 
-input = np.genfromtxt('results/test/log_file.csv', delimiter=',')[:-1]
-print(input)
+input = np.genfromtxt('results/small/log_file.csv', delimiter=',')[:-1]
+#print(input)
 
 accuracies1 = []
 accuracies2 = []
@@ -28,15 +28,16 @@ for i,element in enumerate(input):
             lrs.append(lr)
             lr = []
 lrs = np.asarray(lrs)
-print(accuracies1)
-print(accuracies2)
-print(accuracies3)
-print(lrs)
+# print(accuracies1)
+# print(accuracies2)
+# print(accuracies3)
+# print(lrs)
 
-for i in range(opts):
-    paramlist = []
-    optrangelower = math.ceil((12.0/opts) *i)
-    optrangeupper = math.ceil((12.0/opts) * (i+1))
-    
-    optrange = list(range(optrangelower,optrangeupper))
-    print(optrange)
+rating = np.asarray(accuracies2) + np.asarray(accuracies3)
+ranking = np.argsort(rating)
+print(ranking)
+print(ranking.shape[0])
+for i,lr in enumerate(lrs):
+    plt.plot(lr,color = (1,0,0, 1-ranking[i]/ranking.shape[0]))
+
+plt.show()

@@ -30,7 +30,7 @@ eval_ds = [ "rtesmall", "qqpsmall","qqp", "rte"]
 def train(args, config):
 
     torch.multiprocessing.set_start_method('spawn', force=True)
-
+    number_of_diff_lrs = 10 
     max_epochs = int(config["DEFAULT"]["epochs"])
 
     batch_size = int(config["DEFAULT"]["batch_size"])
@@ -40,7 +40,7 @@ def train(args, config):
     baseline = config["DEFAULT"]["baseline"] == "True"
     print("dataset:", dataset)
     print("dataset2:", dataset2)
-
+    log_file = config["DEFAULT"]["directory"]+"/log_file.csv"
         
     if baseline :
         print("running baseline")
@@ -76,6 +76,16 @@ def train(args, config):
         accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
         print("acuraccy after forgetting on first ds:", accuracy)
         torch.cuda.empty_cache()
+        
+    def report(lrs, accuracy1 ,accuracy2,accuracy3):
+        f = open(log_file, "a")
+        f.write(str(accuracy1)+ ",")
+        f.write(str(accuracy2)+ ",")
+        f.write(str(accuracy3)+ ",")
+        for lr in lrs:
+            f.write(str(lr)+ ",")
+        f.close()
+        return
     
     def train_fn():
        
@@ -138,7 +148,7 @@ def train(args, config):
                  
                  )
         def run_opaque_box(args, reporter):
-            args.number_of_diff_lrs = 10
+            args.number_of_diff_lrs = number_of_diff_lrs
             print(args)
             num_classes = 2
             if "mnli" in dataset:
@@ -165,9 +175,11 @@ def train(args, config):
             print("acuraccy on second ds:", accuracy2)
             
          #   print("evaluating")
-            accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-            print("acuraccy on first ds after training on second ds:", accuracy)
-            reporter(objective=accuracy + accuracy2, epoch=max_epochs +1)
+            accuracy3 = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
+            print("acuraccy on first ds after training on second ds:", accuracy3)
+            
+            report([args.opts[i]["lr"] for i in range(number_of_diff_lrs)],accuracy, accuracy2, accuracy3)
+            reporter(objective=accuracy3 + accuracy2, epoch=max_epochs +1)
             torch.cuda.empty_cache()
         return run_opaque_box
 

@@ -81,9 +81,7 @@ class NLP_embedder(nn.Module):
 
         self.optimizer =[]
         
-        print(args.number_of_diff_lrs)
         for i in range(args.number_of_diff_lrs):
-            print(i)
             paramlist = []
             optrangelower = math.ceil((12.0/(args.number_of_diff_lrs-2)) *(i-1))
             optrangeupper = math.ceil((12.0/(args.number_of_diff_lrs-2)) * (i))

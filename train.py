@@ -152,13 +152,14 @@ def train(args, config):
             model = model.to(device)
         #    print("loading dataset")
             X_train, X_val, X_test, Y_train, Y_val, Y_test = load_data(name=dataset)
-            print("training model on first dataset")
+            print("training model on first dataset", dataset)
             model.fit(X_train, Y_train, X_val= X_val,Y_val= Y_val, reporter = reporter, epochs=max_epochs)
             accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
             print("acuraccy on first ds:", accuracy)
+            torch.cuda.empty_cache()
          #   print("loading dataset")
             X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
-            print("training model  on second ds")
+            print("training model  on second ds", dataset2)
             model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
             accuracy2 = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
             print("acuraccy on second ds:", accuracy2)
@@ -166,8 +167,8 @@ def train(args, config):
          #   print("evaluating")
             accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
             print("acuraccy on first ds after training on second ds:", accuracy)
-            reporter(objective=accuracy +acccuracy2, epoch=max_epochs +1)
-            
+            reporter(objective=accuracy + accuracy2, epoch=max_epochs +1)
+            torch.cuda.empty_cache()
         return run_opaque_box
 
     runboxfn = train_fn()

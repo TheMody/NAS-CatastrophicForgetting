@@ -80,14 +80,19 @@ class NLP_embedder(nn.Module):
         
 
         self.optimizer =[]
+        
+        print(args.number_of_diff_lrs)
         for i in range(args.number_of_diff_lrs):
+            print(i)
             paramlist = []
-            optrangelower = math.ceil((12.0/args.number_of_diff_lrs) *i)
-            optrangeupper = math.ceil((12.0/args.number_of_diff_lrs) * (i+1))
+            optrangelower = math.ceil((12.0/(args.number_of_diff_lrs-2)) *(i-1))
+            optrangeupper = math.ceil((12.0/(args.number_of_diff_lrs-2)) * (i))
             
             optrange = list(range(optrangelower,optrangeupper))
+            if i == 0 or i == args.number_of_diff_lrs-1:
+                optrange =[]
             for name,param in self.named_parameters():
-                
+              #  print(i,paramlist)  
                 if "encoder.layer." in name:
                     included = False
                     for number in optrange:
@@ -95,7 +100,7 @@ class NLP_embedder(nn.Module):
                             included = True
                     if included:
                         paramlist.append(param)
-                     #   print("included", name , "in", i)
+                    #    print("included", name , "in", i)
                 else:
                     if "embeddings." in name:
                         if i == 0:
@@ -104,9 +109,10 @@ class NLP_embedder(nn.Module):
                     else:
                         if i == args.number_of_diff_lrs-1:
                             paramlist.append(param)
-                         #   print("included", name , "in", i)
+                          #  print("included", name , "in", i)
             #"adam", "radam", "rmsprop", "sgd", "adadelta", "adagrad"
-#             if args.opts[i]["opt"] == "adam":        
+#             if args.opts[i]["opt"] == "adam":    
+              
             self.optimizer.append(optim.Adam(paramlist, lr=args.opts[i]["lr"] ))
 #             if args.opts[i]["opt"] == "radam":        
 #                 self.optimizer.append(optim.RAdam(paramlist, lr=args.opts[i]["lr"] ))

@@ -6,6 +6,7 @@ from logger import Logger
 import shutil
 import sys
 from train import train
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 def main():
     parser = argparse.ArgumentParser(

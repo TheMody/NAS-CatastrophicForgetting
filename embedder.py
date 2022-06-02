@@ -232,6 +232,26 @@ class NLP_embedder(nn.Module):
      #   resultx = resultx.detach()
         return torch.argmax(resultx, dim = 1)
     
+    def embed(self, x):
+        resultx = None
+
+        for i in range(math.ceil(len(x) / self.batch_size)):
+            ul = min((i+1) * self.batch_size, len(x))
+            batch_x = x[i*self.batch_size: ul]
+            batch_x = self.tokenizer(batch_x, return_tensors="pt", padding=self.padding, max_length = 256, truncation = True)
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            batch_x = batch_x.to(device)
+            batch_x = self.model(**batch_x)   
+            batch_x = batch_x.last_hidden_state
+            batch_x = batch_x[:, self.lasthiddenstate]
+            if resultx is None:
+                resultx = batch_x.detach()
+            else:
+                resultx = torch.cat((resultx, batch_x.detach()))
+
+     #   resultx = resultx.detach()
+        return resultx
+    
     
 
         

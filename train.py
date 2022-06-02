@@ -13,9 +13,11 @@ from sklearn.model_selection import train_test_split
 import torch
 from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import cross_val_score
+from sklearn.cluster import KMeans
 import time
 from data import load_data, SimpleDataset
 from torch.utils.data import DataLoader
+from plot import plot_TSNE_clustering
 # Fixing seed for reproducibility
 SEED = 999
 random.seed(SEED)
@@ -26,6 +28,49 @@ REWARD_ATTR_NAME = 'objective'
 datasets = [ "mnli","cola", "sst2", "mrpc","qqp", "rte"]#"qqp", "rte" 
 eval_ds = [ "rtesmall", "qqpsmall","qqp", "rte"]
     
+    
+def split_by_length(X, y):
+    lengths = []
+    for sente in X:
+        lengths.append(len(sente))
+    sortind = np.argsort(lengths)
+    
+    new_X = []
+    new_y =[]
+    new_X2 = []
+    new_y2 =[]
+    lensent = len(X)
+    for i,ind in enumerate(sortind):
+        if ind > lensent/2:
+            new_X.append(X[i])
+            new_y.append(y[i])
+        else:
+            new_X2.append(X[i])
+            new_y2.append(y[i])
+            
+    return new_X, torch.LongTensor(new_y), new_X2, torch.LongTensor(new_y2)
+
+def split_by_cluster(X,y, model, estimator = None):
+    encoded = model.embed(X).cpu().numpy()
+    if estimator == None:
+        estimator = KMeans(n_clusters=2, random_state=0).fit(encoded)
+    index = estimator.predict(encoded)
+   # print(index)
+    new_X = []
+    new_y =[]
+    new_X2 = []
+    new_y2 =[]
+    
+    for i,ind in enumerate(index):
+        if ind > 0:
+            new_X.append(X[i])
+            new_y.append(y[i])
+        else:
+            new_X2.append(X[i])
+            new_y2.append(y[i])
+            
+    return new_X, torch.LongTensor(new_y), new_X2, torch.LongTensor(new_y2), estimator
+            
 
 def train(args, config):
 
@@ -38,6 +83,16 @@ def train(args, config):
     dataset = config["DEFAULT"]["dataset"]
     dataset2 = config["DEFAULT"]["dataset2"]
     baseline = config["DEFAULT"]["baseline"] == "True"
+    datashift = False
+    taskshift = False
+    embshift = False
+    if config["DEFAULT"]["shift_type"] == "datashift":
+        datashift = True
+    if config["DEFAULT"]["shift_type"] == "taskshift":
+        taskshift = True
+    if config["DEFAULT"]["shift_type"] == "embshift":
+        embshift = True
+    print("shift_type", config["DEFAULT"]["shift_type"])
     print("dataset:", dataset)
     print("dataset2:", dataset2)
     log_file = config["DEFAULT"]["directory"]+"/log_file.csv"
@@ -62,19 +117,57 @@ def train(args, config):
         model = model.to(device)
     #    print("loading dataset")
         X_train, X_val, X_test, Y_train, Y_val, Y_test = load_data(name=dataset)
-        print("training model on first dataset", dataset)
-        model.fit(X_train, Y_train, epochs=max_epochs)
-        accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-        print("acuraccy on first ds:", accuracy)
-     #   print("loading dataset")
-        X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
-        print("training model  on second ds", dataset2)
-        model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
-        accuracy = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
-        print("acuraccy on second ds:", accuracy)
-     #   print("evaluating")
-        accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-        print("acuraccy after forgetting on first ds:", accuracy)
+        if embshift:
+            Xval1,yval1,Xval2,yval2, estimator = split_by_cluster(X_val,Y_val, model)
+            X1,y1,X2,y2, estimator = split_by_cluster(X_train,Y_train, model, estimator)
+#             plot_TSNE_clustering(model.embed(X_val).cpu().numpy(), estimator.predict(model.embed(X_val).cpu().numpy()))
+#             plot_TSNE_clustering(model.embed(X_val).cpu().numpy(), Y_val)
+            
+            
+            print("training model on unshifted dataset", dataset)
+            model.fit(X1, y1, epochs=max_epochs)
+            accuracy = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+            print("acuraccy on unshifted ds:", accuracy)
+            print("training model on shifted dataset", dataset)
+            model.fit(X2, y2, epochs=max_epochs)
+            accuracy2 = float(model.evaluate(Xval2,yval2, second_head = False).cpu().numpy())
+            print("acuraccy on shifted ds:", accuracy2)
+            accuracy3 = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+            print("acuraccy on unshifted ds afterwards:", accuracy3)
+            
+        if datashift:
+            X1,y1,X2,y2 = split_by_length(X_train,Y_train)
+            Xval1,yval1,Xval2,yval2 = split_by_length(X_val,Y_val)
+            print("training model on unshifted dataset", dataset)
+            model.fit(X1, y1, epochs=max_epochs)
+            accuracy = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+            print("acuraccy on unshifted ds:", accuracy)
+            print("training model on shifted dataset", dataset)
+            model.fit(X2, y2, epochs=max_epochs)
+            accuracy2 = float(model.evaluate(Xval2,yval2, second_head = False).cpu().numpy())
+            print("acuraccy on shifted ds:", accuracy2)
+            accuracy3 = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+            print("acuraccy on unshifted ds afterwards:", accuracy3)
+
+            
+        if taskshift:
+            print("training model on first dataset", dataset)
+            model.fit(X_train, Y_train, X_val= X_val,Y_val= Y_val, reporter = reporter, epochs=max_epochs)
+            accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
+            print("acuraccy on first ds:", accuracy)
+            torch.cuda.empty_cache()
+         #   print("loading dataset")
+            X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
+            print("training model  on second ds", dataset2)
+            model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
+            accuracy2 = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
+            print("acuraccy on second ds:", accuracy2)
+            
+         #   print("evaluating")
+            accuracy3 = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
+            print("acuraccy on first ds after training on second ds:", accuracy3)
+            
+
         torch.cuda.empty_cache()
         
     def report(lrs, accuracy1 ,accuracy2,accuracy3):
@@ -162,22 +255,52 @@ def train(args, config):
             model = model.to(device)
         #    print("loading dataset")
             X_train, X_val, X_test, Y_train, Y_val, Y_test = load_data(name=dataset)
-            print("training model on first dataset", dataset)
-            model.fit(X_train, Y_train, X_val= X_val,Y_val= Y_val, reporter = reporter, epochs=max_epochs)
-            accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-            print("acuraccy on first ds:", accuracy)
-            torch.cuda.empty_cache()
-         #   print("loading dataset")
-            X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
-            print("training model  on second ds", dataset2)
-            model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
-            accuracy2 = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
-            print("acuraccy on second ds:", accuracy2)
             
-         #   print("evaluating")
-            accuracy3 = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
-            print("acuraccy on first ds after training on second ds:", accuracy3)
+            if embshift:
+                X1,y1,X2,y2, estimator = split_by_cluster(X_train,Y_train, model)
+                Xval1,yval1,Xval2,yval2, _ = split_by_cluster(X_val,Y_val, model, estimator)
+                print("training model on unshifted dataset", dataset)
+                model.fit(X1, y1, X_val= Xval1,Y_val= yval1, reporter = reporter, epochs=max_epochs)
+                accuracy = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+                print("acuraccy on unshifted ds:", accuracy)
+                print("training model on shifted dataset", dataset)
+                model.fit(X2, y2, epochs=max_epochs)
+                accuracy2 = float(model.evaluate(Xval2,yval2, second_head = False).cpu().numpy())
+                print("acuraccy on shifted ds:", accuracy2)
+                accuracy3 = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+                print("acuraccy on unshifted ds afterwards:", accuracy3)
             
+            if datashift:
+                X1,y1,X2,y2 = split_by_length(X_train,Y_train)
+                Xval1,yval1,Xval2,yval2 = split_by_length(X_val,Y_val)
+                print("training model on unshifted dataset", dataset)
+                model.fit(X1, y1, X_val= Xval1,Y_val= yval1, reporter = reporter, epochs=max_epochs)
+                accuracy = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+                print("acuraccy on unshifted ds:", accuracy)
+                print("training model on shifted dataset", dataset)
+                model.fit(X2, y2, epochs=max_epochs)
+                accuracy2 = float(model.evaluate(Xval2,yval2, second_head = False).cpu().numpy())
+                print("acuraccy on shifted ds:", accuracy2)
+                accuracy3 = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())
+                print("acuraccy on unshifted ds afterwards:", accuracy3)
+                
+            if taskshift:
+                print("training model on first dataset", dataset)
+                model.fit(X_train, Y_train, X_val= X_val,Y_val= Y_val, reporter = reporter, epochs=max_epochs)
+                accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
+                print("acuraccy on first ds:", accuracy)
+                torch.cuda.empty_cache()
+             #   print("loading dataset")
+                X_train, X_val2, _, Y_train, Y_val2, _ = load_data(name=dataset2)
+                print("training model  on second ds", dataset2)
+                model.fit(X_train, Y_train, epochs=max_epochs, second_head = True)
+                accuracy2 = float(model.evaluate(X_val2,Y_val2, second_head = True).cpu().numpy())
+                print("acuraccy on second ds:", accuracy2)
+                
+             #   print("evaluating")
+                accuracy3 = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
+                print("acuraccy on first ds after training on second ds:", accuracy3)
+                
             report([args.opts[i]["lr"] for i in range(number_of_diff_lrs)],accuracy, accuracy2, accuracy3)
             reporter(objective=accuracy3 + accuracy2, epoch=max_epochs +1)
             torch.cuda.empty_cache()

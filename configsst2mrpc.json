@@ -1,5 +1,5 @@
 [DEFAULT]
-batch_size = 8
+batch_size = 4
 checkpoint = None
 directory = results/sst2mrpc
 seed = 42
@@ -8,3 +8,4 @@ num_trials = 50
 dataset = sst2
 dataset2 = mrpc
 baseline = False
+shift_type = datashift

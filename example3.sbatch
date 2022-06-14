@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --job-name=NAS-mrpcsst2
 #SBATCH --output=automrpcsst2.log
-#SBATCH --time=96:00:00
+#SBATCH --time=48:00:00
 
 module load cuda/10.1
 

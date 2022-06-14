@@ -69,6 +69,8 @@ def split_by_cluster(X,y, model, estimator = None):
             new_X2.append(X[i])
             new_y2.append(y[i])
             
+#     print(len(new_X2))
+#     print(len(new_X))
     return new_X, torch.LongTensor(new_y), new_X2, torch.LongTensor(new_y2), estimator
             
 
@@ -257,8 +259,8 @@ def train(args, config):
             X_train, X_val, X_test, Y_train, Y_val, Y_test = load_data(name=dataset)
             
             if embshift:
-                X1,y1,X2,y2, estimator = split_by_cluster(X_train,Y_train, model)
-                Xval1,yval1,Xval2,yval2, _ = split_by_cluster(X_val,Y_val, model, estimator)
+                Xval1,yval1,Xval2,yval2, estimator = split_by_cluster(X_val,Y_val, model)
+                X1,y1,X2,y2, estimator = split_by_cluster(X_train,Y_train, model, estimator)
                 print("training model on unshifted dataset", dataset)
                 model.fit(X1, y1, X_val= Xval1,Y_val= yval1, reporter = reporter, epochs=max_epochs)
                 accuracy = float(model.evaluate(Xval1,yval1, second_head = False).cpu().numpy())

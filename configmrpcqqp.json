@@ -1,11 +1,11 @@
 [DEFAULT]
 batch_size = 4
 checkpoint = None
-directory = results/mnlisst2
+directory = results/mrpcqqp
 seed = 42
 epochs = 3
 num_trials = 50
-dataset = mnli
-dataset2 = sst2
+dataset = mrpc
+dataset2 = qqp
 baseline = False
-shift_type = datashift
+shift_type = taskshift

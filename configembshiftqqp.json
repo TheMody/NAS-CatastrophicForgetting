@@ -1,11 +1,11 @@
 [DEFAULT]
-batch_size = 4
+batch_size = 8
 checkpoint = None
-directory = results/mnliqqp
+directory = qqpembshift
 seed = 42
 epochs = 3
 num_trials = 50
-dataset = mnli
+dataset = qqp
 dataset2 = qqp
 baseline = False
-shift_type = datashift
+shift_type = embshift

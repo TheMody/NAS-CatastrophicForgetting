@@ -106,7 +106,7 @@ def train(args, config):
                 return
         args = dummy()
         args.number_of_diff_lrs = 1
-        args.opts = [{"lr": 2e-5, "opt" : "adam", "sched": "warmcosinestarting"}]
+        args.opts = [{"lr": 2e-5}]
         num_classes = 2
         if "mnli" in dataset:
             num_classes = 3

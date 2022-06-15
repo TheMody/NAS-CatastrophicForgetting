@@ -8,4 +8,4 @@ num_trials = 50
 dataset = qqp
 dataset2 = mnli
 baseline = False
-shift_type = datashift
+shift_type = taskshift

@@ -1,0 +1,10 @@
+[DEFAULT]
+batch_size = 8
+checkpoint = None
+directory = results/sst2mrpc
+seed = 42
+epochs = 5
+num_trials = 50
+dataset = sst2
+dataset2 = mrpc
+baseline = True

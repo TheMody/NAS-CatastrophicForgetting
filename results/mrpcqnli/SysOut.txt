@@ -1,0 +1,412 @@
+shift_type datashift
+dataset: mrpc
+dataset2: qnli
+run scheduler
+(task:0)	{'opts': [{'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}], 'task_id': 0, 'config_id': '0', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7241379022598267 time per epoch 28.7447612285614
+(task:2)	{'opts': [{'lr': 0.0004896664102021354}, {'lr': 3.5137347904756333e-05}, {'lr': 2.096021019199699e-05}, {'lr': 2.1540387819955445e-07}, {'lr': 6.272923344492287e-05}, {'lr': 1.2401923168188247e-07}, {'lr': 5.228700835236753e-07}, {'lr': 0.00044308679732409486}, {'lr': 0.000530505354846596}, {'lr': 1.554879138047416e-07}], 'task_id': 2, 'config_id': '2', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.648698568344116
+(task:1)	{'opts': [{'lr': 0.00016357320391936024}, {'lr': 1.2885141219665791e-05}, {'lr': 2.9953381652134005e-07}, {'lr': 3.620143424647889e-05}, {'lr': 2.3104738157889866e-07}, {'lr': 2.132567189815748e-06}, {'lr': 5.122993322077871e-06}, {'lr': 1.6502253327523705e-05}, {'lr': 3.2546634732979674e-05}, {'lr': 6.159873262451666e-05}], 'task_id': 1, 'config_id': '1', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7536945939064026 time per epoch 27.291133165359497
+accuracy after 1 epochs: 0.8029556274414062 time per epoch 28.367568492889404
+accuracy after 2 epochs: 0.7586206793785095 time per epoch 27.24968194961548
+acuraccy on unshifted ds: 0.7586206793785095
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.8243902325630188
+acuraccy on unshifted ds afterwards: 0.8374384045600891
+(task:3)	{'opts': [{'lr': 7.4650513190817844e-06}, {'lr': 7.582385660421659e-07}, {'lr': 2.1508100612879092e-07}, {'lr': 4.8224841200065725e-05}, {'lr': 3.611980106144036e-07}, {'lr': 8.596766123140717e-06}, {'lr': 6.92942479560882e-07}, {'lr': 0.00014054373385544394}, {'lr': 3.216657829363039e-07}, {'lr': 0.00026954034762143736}], 'task_id': 3, 'config_id': '3', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.365774869918823
+(task:5)	{'opts': [{'lr': 8.759607754692303e-06}, {'lr': 0.001}, {'lr': 0.0005881069239055035}, {'lr': 0.001}, {'lr': 1e-07}, {'lr': 1.338129551204496e-05}, {'lr': 5.256387968954333e-07}, {'lr': 0.0002852132526240864}, {'lr': 5.806721652303008e-07}, {'lr': 0.001}], 'task_id': 5, 'config_id': '5', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.36806011199951
+(task:6)	{'opts': [{'lr': 3.6625973178033953e-06}, {'lr': 0.001}, {'lr': 1e-07}, {'lr': 2.3505951256523263e-06}, {'lr': 2.2872854799031883e-06}, {'lr': 0.001}, {'lr': 1.5109843508438523e-06}, {'lr': 1.46611505893348e-05}, {'lr': 0.001}, {'lr': 1.8088318855485006e-07}], 'task_id': 6, 'config_id': '6', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 28.03393268585205
+(task:4)	{'opts': [{'lr': 0.00014288634266300827}, {'lr': 8.155164786996017e-06}, {'lr': 2.13256826994741e-06}, {'lr': 8.52243619199817e-07}, {'lr': 1.9946064466124164e-07}, {'lr': 2.0284821108045836e-05}, {'lr': 0.00014384035778622535}, {'lr': 4.473084545542697e-07}, {'lr': 7.188435243011099e-06}, {'lr': 0.0006416117656653201}], 'task_id': 4, 'config_id': '4', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.743842363357544 time per epoch 27.62753438949585
+accuracy after 1 epochs: 0.8226600885391235 time per epoch 28.524423360824585
+accuracy after 2 epochs: 0.842364490032196 time per epoch 29.27556800842285
+acuraccy on unshifted ds: 0.842364490032196
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.8536585569381714
+acuraccy on unshifted ds afterwards: 0.8620689511299133
+(task:7)	{'opts': [{'lr': 1e-07}, {'lr': 1.727920267953722e-05}, {'lr': 3.25096297665529e-06}, {'lr': 0.001}, {'lr': 0.001}, {'lr': 0.00022899873963271093}, {'lr': 1.3132650293447182e-05}, {'lr': 0.0001666217721769063}, {'lr': 2.6171373932582586e-06}, {'lr': 2.335342869362182e-07}], 'task_id': 7, 'config_id': '7', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.55951976776123
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 31.499739408493042
+(task:8)	{'opts': [{'lr': 0.001}, {'lr': 4.196927747245889e-05}, {'lr': 6.51416431856189e-05}, {'lr': 1e-07}, {'lr': 0.00042605061854551307}, {'lr': 0.00033069703662427633}, {'lr': 4.703993528447302e-05}, {'lr': 7.385080610603115e-05}, {'lr': 0.001}, {'lr': 0.0003521380434607415}], 'task_id': 8, 'config_id': '8', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 30.994388103485107
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.907156705856323
+(task:9)	{'opts': [{'lr': 0.001}, {'lr': 0.00015482335777551538}, {'lr': 1e-07}, {'lr': 0.001}, {'lr': 0.0004110527645868381}, {'lr': 1e-07}, {'lr': 0.00010461349839868213}, {'lr': 1e-07}, {'lr': 0.001}, {'lr': 5.550626547198603e-05}], 'task_id': 9, 'config_id': '9', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 30.650497436523438
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.436528205871582
+(task:10)	{'opts': [{'lr': 5.549264799440618e-07}, {'lr': 0.00036437344503000105}, {'lr': 2.0589723840618382e-07}, {'lr': 0.0003627975585703508}, {'lr': 2.7292391876740138e-06}, {'lr': 1.1343624185313443e-07}, {'lr': 5.904228062753658e-05}, {'lr': 3.3551733469259728e-06}, {'lr': 0.00018578046462310442}, {'lr': 4.4007968172112586e-07}], 'task_id': 10, 'config_id': '10', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.780296325683594
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 30.40016269683838
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 28.433965921401978
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:11)	{'opts': [{'lr': 0.001}, {'lr': 9.586228966436366e-05}, {'lr': 9.616850052995261e-06}, {'lr': 0.0001406239009863317}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 2.072148174784267e-05}, {'lr': 0.00013634166517274845}, {'lr': 9.277319352774925e-07}, {'lr': 1.0863400959487616e-05}], 'task_id': 11, 'config_id': '11', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.3618221282959
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.355802536010742
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 30.257317543029785
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:12)	{'opts': [{'lr': 1e-07}, {'lr': 7.72389717293611e-06}, {'lr': 1e-07}, {'lr': 0.001}, {'lr': 1e-07}, {'lr': 1.8225225846793424e-07}, {'lr': 1.0995968571055218e-06}, {'lr': 2.6246033343948366e-06}, {'lr': 0.001}, {'lr': 0.001}], 'task_id': 12, 'config_id': '12', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 28.47622585296631
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.63073754310608
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 28.005911350250244
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:13)	{'opts': [{'lr': 0.001}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 0.0005412871068179694}, {'lr': 1e-07}, {'lr': 2.72180494860456e-07}, {'lr': 3.6311482174959168e-06}, {'lr': 0.0001690101667119664}, {'lr': 3.456383637900891e-06}, {'lr': 0.001}], 'task_id': 13, 'config_id': '13', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.433146238327026
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 29.035520792007446
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.429986476898193
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:14)	{'opts': [{'lr': 3.718886114558852e-05}, {'lr': 0.001}, {'lr': 3.698511484844002e-05}, {'lr': 1e-07}, {'lr': 0.0007325847558797155}, {'lr': 1.918464394871521e-06}, {'lr': 7.509845739667111e-05}, {'lr': 2.7169606657819032e-05}, {'lr': 7.4236857432174895e-06}, {'lr': 2.39792450135794e-05}], 'task_id': 14, 'config_id': '14', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 28.871200799942017
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.58869171142578
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.322407007217407
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:15)	{'opts': [{'lr': 5.469654702286896e-05}, {'lr': 0.0006259815744630244}, {'lr': 3.414346386474601e-05}, {'lr': 0.0002247350998793586}, {'lr': 1.1025124592462664e-06}, {'lr': 2.9073315211851906e-06}, {'lr': 0.001}, {'lr': 0.0002715850952026065}, {'lr': 5.966174745098603e-05}, {'lr': 5.658483601676801e-05}], 'task_id': 15, 'config_id': '15', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.431427240371704
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.985107421875
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 28.93986415863037
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:16)	{'opts': [{'lr': 1.1860307713323292e-06}, {'lr': 1e-07}, {'lr': 2.164290646634967e-07}, {'lr': 4.92502170434168e-06}, {'lr': 9.912505295862734e-07}, {'lr': 9.367577765580096e-06}, {'lr': 0.0008560557696198454}, {'lr': 8.40903791809683e-06}, {'lr': 0.001}, {'lr': 1.1298313659055439e-05}], 'task_id': 16, 'config_id': '16', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 28.46071481704712
+accuracy after 1 epochs: 0.7487684488296509 time per epoch 27.517899751663208
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.301215648651123
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6780487895011902
+acuraccy on unshifted ds afterwards: 0.7586206793785095
+(task:17)	{'opts': [{'lr': 1.111665710230008e-07}, {'lr': 0.001}, {'lr': 1e-07}, {'lr': 1.15182788722064e-07}, {'lr': 1.0747077282687574e-07}, {'lr': 0.001}, {'lr': 1.3127317847429792e-07}, {'lr': 1e-07}, {'lr': 8.801446897864868e-06}, {'lr': 1.1805375916997956e-07}], 'task_id': 17, 'config_id': '17', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.767853498458862
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 30.33576512336731
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 29.200924396514893
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:18)	{'opts': [{'lr': 0.001}, {'lr': 4.30968635326387e-05}, {'lr': 2.053273329342763e-07}, {'lr': 3.512699730848949e-07}, {'lr': 1e-07}, {'lr': 0.001}, {'lr': 2.873631746166988e-07}, {'lr': 1.5501903565754288e-06}, {'lr': 2.4791588422993282e-06}, {'lr': 2.8856287099988366e-07}], 'task_id': 18, 'config_id': '18', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.81828808784485
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 29.22665548324585
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.405014514923096
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:19)	{'opts': [{'lr': 0.001}, {'lr': 3.4702064455164875e-06}, {'lr': 1.9034896235385393e-06}, {'lr': 3.1244502944978714e-06}, {'lr': 1.4777708136991494e-06}, {'lr': 1.9302909510213036e-05}, {'lr': 2.8500644389689667e-05}, {'lr': 1.0114473776581377e-05}, {'lr': 0.00019865993182362223}, {'lr': 1.636133285639564e-07}], 'task_id': 19, 'config_id': '19', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.707361459732056
+accuracy after 1 epochs: 0.7093595862388611 time per epoch 28.41029691696167
+accuracy after 2 epochs: 0.6798029541969299 time per epoch 28.055492639541626
+acuraccy on unshifted ds: 0.6798029541969299
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:20)	{'opts': [{'lr': 0.0002009833010207116}, {'lr': 0.000811170593126642}, {'lr': 6.840397353277844e-07}, {'lr': 0.00018643633424234864}, {'lr': 0.00046697734289346073}, {'lr': 8.971405521914042e-06}, {'lr': 1.8896323103363668e-05}, {'lr': 2.68564411608351e-06}, {'lr': 1e-07}, {'lr': 0.001}], 'task_id': 20, 'config_id': '20', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 28.913625478744507
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 29.555322647094727
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.604962825775146
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:21)	{'opts': [{'lr': 6.243308549328754e-05}, {'lr': 1e-07}, {'lr': 7.956080912723427e-05}, {'lr': 8.71544148490954e-07}, {'lr': 0.00014933032604755385}, {'lr': 1.3025829352102475e-05}, {'lr': 8.598171084687123e-07}, {'lr': 7.971029113238227e-07}, {'lr': 0.00027213191802785236}, {'lr': 0.00021475155281008238}], 'task_id': 21, 'config_id': '21', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.424745559692383
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.520227432250977
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.33625102043152
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:22)	{'opts': [{'lr': 0.0004232331838765622}, {'lr': 5.7493681816280226e-05}, {'lr': 1e-07}, {'lr': 3.5658741192950045e-06}, {'lr': 0.0002735723229173467}, {'lr': 1.7695108935157713e-06}, {'lr': 1.6886155084753837e-05}, {'lr': 7.246919977658183e-06}, {'lr': 0.001}, {'lr': 0.001}], 'task_id': 22, 'config_id': '22', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.136907815933228
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.090704441070557
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.387850999832153
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:23)	{'opts': [{'lr': 1.572971123731388e-07}, {'lr': 9.247266699846526e-06}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 8.713847447405255e-05}, {'lr': 4.511062693210939e-05}, {'lr': 1.9977238200924676e-06}, {'lr': 9.63643254941818e-06}, {'lr': 3.214407326684845e-07}, {'lr': 0.000276838027134146}], 'task_id': 23, 'config_id': '23', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7832512259483337 time per epoch 27.449199199676514
+accuracy after 1 epochs: 0.8374384045600891 time per epoch 27.584033966064453
+accuracy after 2 epochs: 0.8275861740112305 time per epoch 27.392308950424194
+acuraccy on unshifted ds: 0.8275861740112305
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.8195121884346008
+acuraccy on unshifted ds afterwards: 0.8620689511299133
+(task:24)	{'opts': [{'lr': 3.6192482668497674e-05}, {'lr': 1.582316177517205e-05}, {'lr': 4.2788962441111873e-07}, {'lr': 1.3395391931889015e-06}, {'lr': 1e-07}, {'lr': 1.6752015566817855e-06}, {'lr': 5.606641012335919e-06}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 0.001}], 'task_id': 24, 'config_id': '24', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7290640473365784 time per epoch 28.99621844291687
+accuracy after 1 epochs: 0.7733989953994751 time per epoch 29.084813117980957
+accuracy after 2 epochs: 0.7931034564971924 time per epoch 27.544122457504272
+acuraccy on unshifted ds: 0.7931034564971924
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.7512195110321045
+acuraccy on unshifted ds afterwards: 0.8325123190879822
+(task:25)	{'opts': [{'lr': 1.9780504314154253e-07}, {'lr': 0.001}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 3.5827782587224415e-05}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 0.0008250881169631028}], 'task_id': 25, 'config_id': '25', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.698943376541138
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.614262580871582
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.409705877304077
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:26)	{'opts': [{'lr': 0.00038307279694580815}, {'lr': 5.891200762430663e-06}, {'lr': 1e-07}, {'lr': 2.2986620104851425e-06}, {'lr': 1.072022133140346e-06}, {'lr': 0.001}, {'lr': 5.004456481968906e-06}, {'lr': 3.2066331898294845e-06}, {'lr': 6.174748583864035e-06}, {'lr': 0.00019517399287528208}], 'task_id': 26, 'config_id': '26', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 28.40291714668274
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.256689071655273
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.290268659591675
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:27)	{'opts': [{'lr': 5.527514920057451e-06}, {'lr': 5.505744662834015e-06}, {'lr': 2.893857862818103e-07}, {'lr': 0.0007227493924257437}, {'lr': 1.106392161506736e-05}, {'lr': 0.001}, {'lr': 1.829612335549928e-05}, {'lr': 6.350800259682417e-07}, {'lr': 5.8970163045912674e-06}, {'lr': 0.00018502771569382266}], 'task_id': 27, 'config_id': '27', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.976393699645996
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.662809371948242
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 28.80644917488098
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:28)	{'opts': [{'lr': 3.091276068914176e-06}, {'lr': 1.0121267975453217e-05}, {'lr': 1e-07}, {'lr': 9.528441656463281e-06}, {'lr': 0.0007767817240459367}, {'lr': 7.052976723213041e-06}, {'lr': 4.4851404082630286e-05}, {'lr': 2.4915916651338436e-06}, {'lr': 2.708168644417452e-06}, {'lr': 0.001}], 'task_id': 28, 'config_id': '28', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.869351387023926
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 29.76371479034424
+accuracy after 2 epochs: 0.7684729099273682 time per epoch 32.47806715965271
+acuraccy on unshifted ds: 0.7684729099273682
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:29)	{'opts': [{'lr': 0.00017559033796304567}, {'lr': 3.638560202657672e-06}, {'lr': 0.0001300788638920722}, {'lr': 7.126242622752577e-06}, {'lr': 4.087868770160543e-07}, {'lr': 6.3373067117580985e-06}, {'lr': 1.175709940103898e-05}, {'lr': 0.0005589788880580528}, {'lr': 1e-07}, {'lr': 0.00018570981589142362}], 'task_id': 29, 'config_id': '29', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.55980086326599
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.187687873840332
+accuracy after 2 epochs: 0.7192118167877197 time per epoch 28.68666696548462
+acuraccy on unshifted ds: 0.7192118167877197
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:30)	{'opts': [{'lr': 1e-07}, {'lr': 0.001}, {'lr': 4.221315271753489e-06}, {'lr': 0.0001139264184384157}, {'lr': 1e-07}, {'lr': 1.4438677655251591e-05}, {'lr': 1.726513502444185e-05}, {'lr': 5.248259270475988e-06}, {'lr': 1.0027631967076221e-07}, {'lr': 0.0003109449944735974}], 'task_id': 30, 'config_id': '30', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 30.603389024734497
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.474093198776245
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.292160034179688
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:31)	{'opts': [{'lr': 0.0001997179670913478}, {'lr': 1.3639042133512064e-06}, {'lr': 1.0037522733450965e-06}, {'lr': 1.4945437694078556e-06}, {'lr': 1e-07}, {'lr': 1.3890171094135957e-06}, {'lr': 8.197021369029619e-05}, {'lr': 5.998251917383083e-07}, {'lr': 2.7111743355536484e-06}, {'lr': 1.4823026881951741e-05}], 'task_id': 31, 'config_id': '31', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7192118167877197 time per epoch 28.7387797832489
+accuracy after 1 epochs: 0.7832512259483337 time per epoch 27.75042462348938
+accuracy after 2 epochs: 0.7931034564971924 time per epoch 27.524327278137207
+acuraccy on unshifted ds: 0.7931034564971924
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.800000011920929
+acuraccy on unshifted ds afterwards: 0.8522167205810547
+(task:32)	{'opts': [{'lr': 0.00018525943817896114}, {'lr': 7.885593588595584e-05}, {'lr': 1.1916330222677484e-07}, {'lr': 0.00012054773647185339}, {'lr': 5.918116952423515e-07}, {'lr': 6.653050902368967e-07}, {'lr': 0.00023617692430459483}, {'lr': 6.008244277267545e-07}, {'lr': 1.0155153386267711e-07}, {'lr': 5.343892562835512e-06}], 'task_id': 32, 'config_id': '32', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 31.25364637374878
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.574886798858643
+accuracy after 2 epochs: 0.7536945939064026 time per epoch 27.48946261405945
+acuraccy on unshifted ds: 0.7536945939064026
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6731707453727722
+acuraccy on unshifted ds afterwards: 0.7931034564971924
+(task:33)	{'opts': [{'lr': 8.528024173420494e-05}, {'lr': 0.0004836451871194329}, {'lr': 1.2238591763125317e-07}, {'lr': 2.886724266563793e-06}, {'lr': 1e-07}, {'lr': 2.4066529038572583e-05}, {'lr': 3.2501400805199014e-07}, {'lr': 1.4206568731924465e-06}, {'lr': 0.00014756764948494128}, {'lr': 1.099722309567366e-07}], 'task_id': 33, 'config_id': '33', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 28.655125856399536
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.916529655456543
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.720111846923828
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:34)	{'opts': [{'lr': 9.852988136038727e-05}, {'lr': 0.001}, {'lr': 2.7791261031377065e-06}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 7.51086962434711e-06}, {'lr': 1e-07}, {'lr': 3.3569886167059317e-06}, {'lr': 1e-07}, {'lr': 0.001}], 'task_id': 34, 'config_id': '34', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 30.852818250656128
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 29.623088121414185
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.454108953475952
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:35)	{'opts': [{'lr': 1.3232928203269045e-07}, {'lr': 1.1166744871956807e-05}, {'lr': 1.0870630067612876e-06}, {'lr': 1e-07}, {'lr': 6.058784072849947e-06}, {'lr': 1.8731563348453567e-05}, {'lr': 9.428301370078502e-06}, {'lr': 4.5134052559236605e-07}, {'lr': 0.0001864630891013526}, {'lr': 8.38607433423176e-05}], 'task_id': 35, 'config_id': '35', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7931034564971924 time per epoch 28.601019144058228
+accuracy after 1 epochs: 0.7832512259483337 time per epoch 27.96472144126892
+accuracy after 2 epochs: 0.8325123190879822 time per epoch 27.802982568740845
+acuraccy on unshifted ds: 0.8325123190879822
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.8487805128097534
+acuraccy on unshifted ds afterwards: 0.8817734122276306
+(task:36)	{'opts': [{'lr': 7.338184680825627e-06}, {'lr': 6.419553784120695e-05}, {'lr': 8.644203260746691e-07}, {'lr': 5.215100789984151e-06}, {'lr': 1.3576172179719325e-05}, {'lr': 1.8345863959605204e-05}, {'lr': 2.0542296523892855e-06}, {'lr': 3.1129238980581733e-06}, {'lr': 0.0001999781917245505}, {'lr': 4.9273508910434424e-05}], 'task_id': 36, 'config_id': '36', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7339901328086853 time per epoch 29.863113164901733
+accuracy after 1 epochs: 0.7290640473365784 time per epoch 28.00588846206665
+accuracy after 2 epochs: 0.7684729099273682 time per epoch 27.495956897735596
+acuraccy on unshifted ds: 0.7684729099273682
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.795121967792511
+acuraccy on unshifted ds afterwards: 0.8522167205810547
+(task:37)	{'opts': [{'lr': 1e-07}, {'lr': 3.146760475981843e-05}, {'lr': 1e-07}, {'lr': 9.261647047048157e-07}, {'lr': 1e-07}, {'lr': 8.505718225780555e-07}, {'lr': 1e-07}, {'lr': 3.809896789919322e-05}, {'lr': 9.481023564631935e-06}, {'lr': 1.252384768924596e-06}], 'task_id': 37, 'config_id': '37', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7093595862388611 time per epoch 27.588873147964478
+accuracy after 1 epochs: 0.7733989953994751 time per epoch 27.649476766586304
+accuracy after 2 epochs: 0.7931034564971924 time per epoch 27.390074253082275
+acuraccy on unshifted ds: 0.7931034564971924
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.8195121884346008
+acuraccy on unshifted ds afterwards: 0.8275861740112305
+(task:38)	{'opts': [{'lr': 3.2258834561400313e-07}, {'lr': 4.464444453026421e-06}, {'lr': 8.685188474870795e-07}, {'lr': 1e-07}, {'lr': 1.4995956599255601e-06}, {'lr': 6.450450398127307e-06}, {'lr': 1.0459787197098574e-05}, {'lr': 8.891567576877387e-06}, {'lr': 3.6544006559691506e-06}, {'lr': 0.0001370087247650353}], 'task_id': 38, 'config_id': '38', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7192118167877197 time per epoch 33.830480337142944
+accuracy after 1 epochs: 0.778325080871582 time per epoch 31.752302885055542
+accuracy after 2 epochs: 0.778325080871582 time per epoch 31.155262231826782
+acuraccy on unshifted ds: 0.778325080871582
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.800000011920929
+acuraccy on unshifted ds afterwards: 0.8325123190879822
+(task:39)	{'opts': [{'lr': 1e-07}, {'lr': 8.037655731662623e-07}, {'lr': 1.3687679605185008e-07}, {'lr': 1e-07}, {'lr': 5.413559242179946e-06}, {'lr': 4.166560517214066e-06}, {'lr': 3.0229277884238063e-07}, {'lr': 0.001}, {'lr': 3.2016768465031605e-05}, {'lr': 3.555458008685882e-05}], 'task_id': 39, 'config_id': '39', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.432556629180908
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.551900148391724
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.304837942123413
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:40)	{'opts': [{'lr': 0.0008197854099132557}, {'lr': 2.2233506274151596e-06}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 1.8683356400394366e-05}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 0.001}, {'lr': 0.00011623552832901346}], 'task_id': 40, 'config_id': '40', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.375307321548462
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.49757695198059
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.248000144958496
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:41)	{'opts': [{'lr': 0.00028384284577809597}, {'lr': 2.331341094160758e-06}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 2.2346151684385875e-07}, {'lr': 2.0956478042678536e-05}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 0.001}, {'lr': 0.00012785978991581258}], 'task_id': 41, 'config_id': '41', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.631185293197632
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.758414030075073
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 28.30084991455078
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6878048777580261
+acuraccy on unshifted ds afterwards: 0.7487684488296509
+(task:42)	{'opts': [{'lr': 6.933466448891929e-05}, {'lr': 5.2884137421325144e-05}, {'lr': 2.923199648399127e-07}, {'lr': 1e-07}, {'lr': 1.0049972094357421e-05}, {'lr': 3.816782083157072e-05}, {'lr': 2.4603576460377698e-05}, {'lr': 1e-07}, {'lr': 1.67870470639317e-05}, {'lr': 0.0003101017226567998}], 'task_id': 42, 'config_id': '42', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7192118167877197 time per epoch 28.855130910873413
+accuracy after 1 epochs: 0.743842363357544 time per epoch 28.925044775009155
+accuracy after 2 epochs: 0.778325080871582 time per epoch 28.04976463317871
+acuraccy on unshifted ds: 0.778325080871582
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.8341463208198547
+acuraccy on unshifted ds afterwards: 0.842364490032196
+(task:43)	{'opts': [{'lr': 1e-07}, {'lr': 1.6759145567689928e-05}, {'lr': 2.5107931101172115e-06}, {'lr': 1e-07}, {'lr': 3.16537793353151e-05}, {'lr': 3.053162111073308e-05}, {'lr': 1e-07}, {'lr': 1.877222070179494e-06}, {'lr': 4.766827613534436e-05}, {'lr': 9.500334025305644e-06}], 'task_id': 43, 'config_id': '43', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7733989953994751 time per epoch 32.655789613723755
+accuracy after 1 epochs: 0.7881773114204407 time per epoch 27.914348602294922
+accuracy after 2 epochs: 0.807881772518158 time per epoch 28.583402633666992
+acuraccy on unshifted ds: 0.807881772518158
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.8243902325630188
+acuraccy on unshifted ds afterwards: 0.871921181678772
+(task:44)	{'opts': [{'lr': 1e-07}, {'lr': 3.2110397746442705e-06}, {'lr': 9.399166228431915e-07}, {'lr': 1e-07}, {'lr': 6.503538201498028e-07}, {'lr': 2.0198063873875395e-05}, {'lr': 0.0003473949170125714}, {'lr': 1e-07}, {'lr': 0.001}, {'lr': 0.001}], 'task_id': 44, 'config_id': '44', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.450063228607178
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 29.644887447357178
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 29.792367935180664
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:45)	{'opts': [{'lr': 1e-07}, {'lr': 3.1184994838578998e-06}, {'lr': 1.0188392889990659e-07}, {'lr': 1e-07}, {'lr': 5.496763683927112e-07}, {'lr': 1.893163496783963e-05}, {'lr': 0.0004484769198629413}, {'lr': 1e-07}, {'lr': 3.880229005087743e-05}, {'lr': 0.001}], 'task_id': 45, 'config_id': '45', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7241379022598267 time per epoch 27.38931679725647
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 28.16031789779663
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 33.74981379508972
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:46)	{'opts': [{'lr': 1e-07}, {'lr': 0.0001057111269287163}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 2.3511758803624758e-05}, {'lr': 2.1788929140732366e-05}, {'lr': 1.4299399071293179e-06}, {'lr': 7.286376886967798e-07}, {'lr': 1.9765806842016695e-07}, {'lr': 3.236997002225748e-05}], 'task_id': 46, 'config_id': '46', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7142857313156128 time per epoch 30.065513134002686
+accuracy after 1 epochs: 0.7832512259483337 time per epoch 27.802878618240356
+accuracy after 2 epochs: 0.778325080871582 time per epoch 27.471123456954956
+acuraccy on unshifted ds: 0.778325080871582
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.7756097316741943
+acuraccy on unshifted ds afterwards: 0.7931034564971924
+(task:47)	{'opts': [{'lr': 1e-07}, {'lr': 0.00012061263454900967}, {'lr': 1e-07}, {'lr': 1e-07}, {'lr': 2.1523198760508046e-05}, {'lr': 1.9521620801667852e-05}, {'lr': 1.5357694988356449e-06}, {'lr': 6.397187255202161e-07}, {'lr': 5.208268257389713e-05}, {'lr': 2.6968125094110702e-05}], 'task_id': 47, 'config_id': '47', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.5823712348938
+accuracy after 1 epochs: 0.7044335007667542 time per epoch 27.7818603515625
+accuracy after 2 epochs: 0.7044335007667542 time per epoch 27.92850112915039
+acuraccy on unshifted ds: 0.7044335007667542
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:48)	{'opts': [{'lr': 2.3186976972390153e-06}, {'lr': 8.204282693318149e-06}, {'lr': 0.0007945574773920757}, {'lr': 1e-07}, {'lr': 1.1553735772997439e-07}, {'lr': 1.0133581177130966e-05}, {'lr': 4.701497264397818e-06}, {'lr': 1.8045807266646526e-06}, {'lr': 1.265648670258012e-05}, {'lr': 1.2556049298059961e-05}], 'task_id': 48, 'config_id': '48', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 27.21480369567871
+accuracy after 1 epochs: 0.7192118167877197 time per epoch 29.49479627609253
+accuracy after 2 epochs: 0.7192118167877197 time per epoch 29.664273500442505
+acuraccy on unshifted ds: 0.7192118167877197
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6634146571159363
+acuraccy on unshifted ds afterwards: 0.7044335007667542
+(task:49)	{'opts': [{'lr': 5.983976495715183e-06}, {'lr': 1.0342058299857011e-05}, {'lr': 1.3647525634160662e-06}, {'lr': 1e-07}, {'lr': 0.0008659898729923611}, {'lr': 5.2481945157449025e-06}, {'lr': 4.594654539454008e-07}, {'lr': 7.199827567569136e-06}, {'lr': 8.746974212910434e-07}, {'lr': 4.1309476465942764e-05}], 'task_id': 49, 'config_id': '49', 'number_of_diff_lrs': 10}
+training model on unshifted dataset mrpc
+accuracy after 0 epochs: 0.7044335007667542 time per epoch 29.370282411575317
+accuracy after 1 epochs: 0.743842363357544 time per epoch 28.918928146362305
+accuracy after 2 epochs: 0.7192118167877197 time per epoch 28.928343296051025
+acuraccy on unshifted ds: 0.7192118167877197
+training model on shifted dataset mrpc
+acuraccy on shifted ds: 0.6878048777580261
+acuraccy on unshifted ds afterwards: 0.7536945939064026
+best config {'opts▁0▁lr': 1.3232928203269045e-07, 'opts▁1▁lr': 1.1166744871956807e-05, 'opts▁2▁lr': 1.0870630067612876e-06, 'opts▁3▁lr': 1e-07, 'opts▁4▁lr': 6.058784072849947e-06, 'opts▁5▁lr': 1.8731563348453567e-05, 'opts▁6▁lr': 9.428301370078502e-06, 'opts▁7▁lr': 4.5134052559236605e-07, 'opts▁8▁lr': 0.0001864630891013526, 'opts▁9▁lr': 8.38607433423176e-05}
+best reward 1.730553925037384
+best task id 35

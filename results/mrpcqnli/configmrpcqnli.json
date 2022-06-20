@@ -1,0 +1,11 @@
+[DEFAULT]
+batch_size = 4
+checkpoint = None
+directory = results/mrpcqnli
+seed = 42
+epochs = 3
+num_trials = 50
+dataset = mrpc
+dataset2 = qnli
+baseline = False
+shift_type = datashift

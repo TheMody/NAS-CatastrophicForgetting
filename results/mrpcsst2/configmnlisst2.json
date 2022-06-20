@@ -1,0 +1,11 @@
+[DEFAULT]
+batch_size = 4
+checkpoint = None
+directory = results/mnlisst2
+seed = 42
+epochs = 3
+num_trials = 50
+dataset = mnli
+dataset2 = sst2
+baseline = False
+shift_type = taskshift

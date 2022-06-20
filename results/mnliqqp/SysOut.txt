@@ -1,0 +1,24 @@
+dataset: mnli
+dataset2: qqp
+run scheduler
+(task:0)	{'opts': [{'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}, {'lr': 1e-05}], 'task_id': 0, 'config_id': '0', 'number_of_diff_lrs': 10}
+training model on first dataset
+accuracy after 0 epochs: 0.8047885894775391 time per epoch 11513.14571237564
+accuracy after 1 epochs: 0.8257768750190735 time per epoch 11530.205866336823
+accuracy after 2 epochs: 0.8320937156677246 time per epoch 11513.131455659866
+acuraccy on first ds: 0.8320937156677246
+training model  on second ds
+acuraccy on second ds: 0.8989999890327454
+acuraccy on first ds after training on second ds: 0.5417218804359436
+(task:1)	{'opts': [{'lr': 0.00016357320391936024}, {'lr': 1.2885141219665791e-05}, {'lr': 2.9953381652134005e-07}, {'lr': 3.620143424647889e-05}, {'lr': 2.3104738157889866e-07}, {'lr': 2.132567189815748e-06}, {'lr': 5.122993322077871e-06}, {'lr': 1.6502253327523705e-05}, {'lr': 3.2546634732979674e-05}, {'lr': 6.159873262451666e-05}], 'task_id': 1, 'config_id': '1', 'number_of_diff_lrs': 10}
+training model on first dataset
+accuracy after 0 epochs: 0.35445746779441833 time per epoch 11515.946721076965
+accuracy after 1 epochs: 0.3181864619255066 time per epoch 11336.393981218338
+accuracy after 2 epochs: 0.3362200856208801 time per epoch 11343.183698177338
+acuraccy on first ds: 0.3362200856208801
+training model  on second ds
+acuraccy on second ds: 0.6313999891281128
+acuraccy on first ds after training on second ds: 0.3181864619255066
+(task:2)	{'opts': [{'lr': 1.2184608257652134e-05}, {'lr': 0.0009064897338501722}, {'lr': 9.477568519598007e-06}, {'lr': 9.756725094585601e-05}, {'lr': 1.2896512590691647e-05}, {'lr': 0.00015886384729340083}, {'lr': 6.30426406404403e-05}, {'lr': 2.1800935550517996e-06}, {'lr': 6.245545550089121e-05}, {'lr': 6.627629330314207e-05}], 'task_id': 2, 'config_id': '2', 'number_of_diff_lrs': 10}
+training model on first dataset
+accuracy after 0 epochs: 0.3181864619255066 time per epoch 11531.914724111557

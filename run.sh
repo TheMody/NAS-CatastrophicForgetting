@@ -1,11 +1,5 @@
-python main.py 
-python main.py --config configmrpcembshift.json
-python main.py --config configembshftmnli.json
-python main.py --config configembshiftqqp.json
-python main.py --config configmrpcqqp.json
-#python main.py --config configmnliqnli.json
-#python main.py --config configqnlimnli.json
-#python main.py --config configqqpmnli.json
-#python main.py --config configmnliqqp.json
-#python main.py --config configsst2mnli.json
-#python main.py --config configmnlisst2.json
+python main.py --config configmrpcsst2.json 
+python main.py --config configsst2mrpc.json 
+python main.py --config configmrpcqqp.json 
+python main.py --config configqqpmrpc.json 
+

@@ -9,3 +9,4 @@ dataset = qnli
 dataset2 = mrpcsmall
 baseline = True
 shift_type = datashift
+baseline_only = False

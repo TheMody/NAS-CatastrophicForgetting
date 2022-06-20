@@ -85,6 +85,7 @@ def train(args, config):
     dataset = config["DEFAULT"]["dataset"]
     dataset2 = config["DEFAULT"]["dataset2"]
     baseline = config["DEFAULT"]["baseline"] == "True"
+    baseline_only = config["DEFAULT"]["baseline_only"] == "True"
     datashift = False
     taskshift = False
     embshift = False
@@ -95,9 +96,17 @@ def train(args, config):
     if config["DEFAULT"]["shift_type"] == "embshift":
         embshift = True
     print("shift_type", config["DEFAULT"]["shift_type"])
+    print("baseline:", baseline)
+    print("baseline_only:", baseline_only)
     print("dataset:", dataset)
     print("dataset2:", dataset2)
     log_file = config["DEFAULT"]["directory"]+"/log_file.csv"
+
+    average_lr = [3.29537129e-06, 4.36300010e-06, 9.21473516e-07, 1.92275197e-06,
+                    2.84902669e-06 ,2.14311562e-06 ,3.26747809e-06, 3.69894365e-06,
+                    3.18562234e-06, 1.11884272e-05]
+    avg_lr_dict = [{"lr": a} for a in average_lr]
+
         
     if baseline :
         print("running baseline")
@@ -105,8 +114,9 @@ def train(args, config):
             def __init__(self):
                 return
         args = dummy()
-        args.number_of_diff_lrs = 1
-        args.opts = [{"lr": 2e-5}]
+        args.number_of_diff_lrs = 10
+        args.opts = avg_lr_dict
+        #args.opts = [{"lr": 2e-5}]
         num_classes = 2
         if "mnli" in dataset:
             num_classes = 3
@@ -171,7 +181,8 @@ def train(args, config):
             
 
         torch.cuda.empty_cache()
-        
+    if not baseline_only :
+
     def report(lrs, accuracy1 ,accuracy2,accuracy3):
         f = open(log_file, "a")
         f.write(str(accuracy1)+ ",")

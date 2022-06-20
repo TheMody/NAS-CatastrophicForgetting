@@ -7,5 +7,6 @@ epochs = 3
 num_trials = 50
 dataset = mrpc
 dataset2 = qqp
-baseline = False
+baseline = True
 shift_type = taskshift
+baseline_only = True

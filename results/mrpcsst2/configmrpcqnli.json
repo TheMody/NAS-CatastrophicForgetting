@@ -9,3 +9,4 @@ dataset = mrpc
 dataset2 = qnli
 baseline = False
 shift_type = taskshift
+baseline_only = True

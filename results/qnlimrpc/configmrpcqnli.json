@@ -8,4 +8,5 @@ num_trials = 50
 dataset = mrpc
 dataset2 = qnli
 baseline = False
-shift_type = datashift
+shift_type = taskshift
+baseline_only = False

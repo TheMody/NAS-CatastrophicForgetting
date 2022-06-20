@@ -164,7 +164,7 @@ def train(args, config):
             
         if taskshift:
             print("training model on first dataset", dataset)
-            model.fit(X_train, Y_train, X_val= X_val,Y_val= Y_val,  epochs=max_epochs)
+            model.fit(X_train, Y_train, X_val= X_val,Y_val= Y_val, reporter = reporter, epochs=max_epochs)
             accuracy = float(model.evaluate(X_val,Y_val, second_head = False).cpu().numpy())
             print("acuraccy on first ds:", accuracy)
             torch.cuda.empty_cache()

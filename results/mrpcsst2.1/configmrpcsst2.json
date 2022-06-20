@@ -1,12 +1,12 @@
 [DEFAULT]
-batch_size = 4
+batch_size = 8
 checkpoint = None
-directory = results/sst2mrpcbase
+directory = results/mrpcsst2
 seed = 42
 epochs = 5
 num_trials = 50
-dataset = sst2
-dataset2 = mrpc
+dataset = mrpc
+dataset2 = sst2
 baseline = True
 shift_type = taskshift
 baseline_only = True

@@ -1,11 +1,10 @@
 [DEFAULT]
 batch_size = 4
 checkpoint = None
-directory = results/qqpmnli
+directory = results/qnlimnli
 seed = 42
 epochs = 3
 num_trials = 50
-dataset = qqp
+dataset = qnli
 dataset2 = mnli
 baseline = False
-shift_type = taskshift

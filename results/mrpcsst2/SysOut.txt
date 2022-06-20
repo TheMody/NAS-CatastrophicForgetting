@@ -1,7 +1,0 @@
-shift_type taskshift
-baseline: True
-baseline_only: True
-dataset: mrpc
-dataset2: sst2
-running baseline
-training model on first dataset mrpc

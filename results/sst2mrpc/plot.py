@@ -124,13 +124,21 @@ def plot_TSNE_clustering(X,y):
     
 if __name__ == '__main__': 
     inputs = []
-    input = np.genfromtxt('results/cluster/sst2mnli/log_file.csv', delimiter=',')[:-1]   
-    inputs.append(input) 
-    # input = np.genfromtxt('results/cluster/mnlisst2/log_file.csv', delimiter=',')[:-1]   #also not computed till the end
+    # input = np.genfromtxt('results/cluster/sst2mnli/log_file.csv', delimiter=',')[:-1]   
     # inputs.append(input) 
-    input = np.genfromtxt('results/cluster/mnliqnli/log_file.csv', delimiter=',')[:-1]  
+    # # input = np.genfromtxt('results/cluster/mnlisst2/log_file.csv', delimiter=',')[:-1]   #also not computed till the end
+    # # inputs.append(input) 
+    # input = np.genfromtxt('results/cluster/mnliqnli/log_file.csv', delimiter=',')[:-1]  
+    # inputs.append(input) 
+    # input = np.genfromtxt('results/cluster/qnlimnli/log_file.csv', delimiter=',')[:-1] 
+    # inputs.append(input) 
+    input = np.genfromtxt('results/sst2mrpc/log_file.csv', delimiter=',')[:-1] 
     inputs.append(input) 
-    input = np.genfromtxt('results/cluster/qnlimnli/log_file.csv', delimiter=',')[:-1] 
+    input = np.genfromtxt('results/mrpcsst2/log_file.csv', delimiter=',')[:-1] 
+    inputs.append(input) 
+    input = np.genfromtxt('results/qqpmrpc/log_file.csv', delimiter=',')[:-1] 
+    inputs.append(input) 
+    input = np.genfromtxt('results/mrpcqqp/log_file.csv', delimiter=',')[:-1] 
     inputs.append(input) 
     combine_multiple(inputs)
     plot_lr_rate(input)

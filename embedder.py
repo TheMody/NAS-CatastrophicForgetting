@@ -67,6 +67,10 @@ class NLP_embedder(nn.Module):
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         self.model = BertModel.from_pretrained('bert-base-uncased')
         self.output_length = 768
+        vocab_size = 30500
+        num_layers = 12
+        self.interpretcount = torch.zeros((num_layers,vocab_size))
+     #   self.register_buffer("count", self.interpretcount)
         
 #         from transformers import RobertaTokenizer, RobertaModel
 #         self.tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
@@ -126,9 +130,25 @@ class NLP_embedder(nn.Module):
 #             self.optimizer = optim.Adam(self.parameters(), lr=args.opts[0]["lr"] )
         self.softmax = torch.nn.Softmax(dim=1)
         
-    def forward(self, x):
-        x = self.model(**x)   
-        
+    def forward(self, x_in):
+        x = self.model(**x_in,output_attentions= True)   
+        for i,attention in enumerate(x.attentions):
+         #   print(x_in["input_ids"].shape)
+       #     print(attention > 0.5)
+            attention_collapsed = torch.sum(attention > 0.5, dim = [1,3]) >= 1
+         #   print(attention_collapsed)
+            selected_input_ids = torch.masked_select(x_in["input_ids"], attention_collapsed)
+         #   print(selected_input_ids.shape)
+         #   self.interpretcount.index_add_()
+         #   print(selected_input_ids.device)
+            
+            # self.interpretcount = self.interpretcount.to(selected_input_ids.device)
+
+            # print(self.interpretcount[i].device)
+            # newcount = torch.clone(self.interpretcount[i].index_add_(0,selected_input_ids, torch.ones([1, 1], device=selected_input_ids.device)))
+            for id in selected_input_ids:
+                self.interpretcount[i,id] += 1
+          #  print(newcount == self.interpretcount[i,id])
         x = x.last_hidden_state
         x = x[:, self.lasthiddenstate]
         if self.second_head:
@@ -200,6 +220,8 @@ class NLP_embedder(nn.Module):
                     print("accuracy after", e, "epochs:", float(accuracy.cpu().numpy()), "time per epoch", time.time()-start)
                     if reporter != None:
                         reporter(objective=float(accuracy.cpu().numpy()) / 2.0, epoch=e+1)
+            else:
+                print("epoch",e,"time per epoch", time.time()-start)
                 
                 
 

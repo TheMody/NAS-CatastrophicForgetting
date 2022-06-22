@@ -105,14 +105,17 @@ def combine_multiple(inputs):
         ranking, accuracies1,  accuracies2, accuracies3, lrs = process_log(input)
         weighted_average = log_average_weighted(lrs, ranking, base = 1.8)
         x = [i for i in range(weighted_average.shape[0])]
-        plt.plot(x,weighted_average)
+  #      plt.plot(x,weighted_average)
         averages.append(weighted_average)
     average = log_average(averages)
     
     print("average over all results",np.asarray(average))
     
-    plt.plot(x,average, color = (0,0.1,1), label = "average")
+    plt.plot(x,[2e-5 for a in x], label = "baseline")
+    plt.plot(x,average, color = (0,0.1,1), label = "combined learning rate")
     plt.legend()
+    plt.xlabel("choice")
+    plt.ylabel("learning rate")
     plt.yscale('log')
     plt.show()
 

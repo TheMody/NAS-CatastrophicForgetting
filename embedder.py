@@ -7,7 +7,10 @@ import math
 import time
 import numpy as np
 from transformers.utils import logging
-from transformers import glue_convert_examples_to_features
+from transformers import glue_convert_examples_to_features, DataCollatorForLanguageModeling
+from copy import deepcopy
+from torch.autograd import variable
+from torch.utils.data import DataLoader
 
 logging.set_verbosity_error()
 #import nvidia_smi
@@ -48,12 +51,59 @@ class CosineScheduler(optim.lr_scheduler._LRScheduler):
     def get_lr_factor(self, epoch):
         lr_factor = 0.5 * (1 + np.cos(np.pi * epoch / self.max_num_iters))
         return lr_factor
+
+class EWC(object):
+    def __init__(self, model: nn.Module, dataset: list, tokenizer):
+
+        self.model = model
+        self.dataset = dataset
+        self.tokenizer = tokenizer
+        self.params = {n: p for n, p in self.model.named_parameters() if p.requires_grad}
+        self._means = {}
+        self._precision_matrices = self._diag_fisher()
+
+        for n, p in deepcopy(self.params).items():
+            self._means[n] = variable(p.data)
+
+    def mask(self,tensor, mlm_prob = 0.15):
+        mlmmask = torch.rand(tensor.shape) > mlm_prob 
+        return torch.where(  mlmmask ,tensor,self.tokenizer.mask_token_id)
+
+    def _diag_fisher(self):
+        precision_matrices = {}
+        for n, p in deepcopy(self.params).items():
+            p.data.zero_()
+            precision_matrices[n] = variable(p.data)
+
+        self.model.eval()
+
+        for input in self.dataset: #todo batching
+            self.model.zero_grad()
+            labels = self.tokenizer(input, return_tensors="pt", padding=True, max_length = 256, truncation = True)["input_ids"]
+            input = self.mask(self.tokenizer(input, return_tensors="pt", padding=True, max_length = 256, truncation = True))
+            labels = torch.where(input.input_ids == self.tokenizer.mask_token_id, labels, -100)
+            output = self.model(**input, labels = labels)
+            loss = output.loss
+            loss.backward()
+
+            for n, p in self.model.named_parameters():
+                precision_matrices[n].data += p.grad.data ** 2 / len(self.dataset)
+
+        precision_matrices = {n: p for n, p in precision_matrices.items()}
+        return precision_matrices
+
+    def penalty(self, model: nn.Module):
+        loss = 0
+        for n, p in model.named_parameters():
+            _loss = self._precision_matrices[n] * (p - self._means[n]) ** 2
+            loss += _loss.sum()
+        return loss
     
 
 
 class NLP_embedder(nn.Module):
 
-    def __init__(self,  num_classes,num_classes2, batch_size, args):
+    def __init__(self,  num_classes,num_classes2, batch_size, args,use_ewc = False,ewc_ds = None):
         super(NLP_embedder, self).__init__()
         self.type = 'nn'
         self.batch_size = batch_size
@@ -63,13 +113,22 @@ class NLP_embedder(nn.Module):
         self.num_classes2 = num_classes2
         self.lasthiddenstate = 0
         self.args = args
-        from transformers import BertTokenizer, BertModel
+        from transformers import BertTokenizer, BertForMaskedLM
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-        self.model = BertModel.from_pretrained('bert-base-uncased')
+        self.model = BertForMaskedLM.from_pretrained('bert-base-uncased')
         self.output_length = 768
+        self.importance = 1000
         vocab_size = 30500
         num_layers = 12
+        self.use_ewc = use_ewc
+        if use_ewc:
+            self.ewc = EWC(self.model,ewc_ds)
+
+
+
         self.interpretcount = torch.zeros((num_layers,vocab_size))
+
+
      #   self.register_buffer("count", self.interpretcount)
         
 #         from transformers import RobertaTokenizer, RobertaModel
@@ -131,25 +190,25 @@ class NLP_embedder(nn.Module):
         self.softmax = torch.nn.Softmax(dim=1)
         
     def forward(self, x_in):
-        x = self.model(**x_in,output_attentions= True)   
-        for i,attention in enumerate(x.attentions):
-         #   print(x_in["input_ids"].shape)
-       #     print(attention > 0.5)
-            attention_collapsed = torch.sum(attention > 0.5, dim = [1,3]) >= 1
-         #   print(attention_collapsed)
-            selected_input_ids = torch.masked_select(x_in["input_ids"], attention_collapsed)
-         #   print(selected_input_ids.shape)
-         #   self.interpretcount.index_add_()
-         #   print(selected_input_ids.device)
+        x = self.model(**x_in,output_attentions= True,output_hidden_states = True)   
+    #     for i,attention in enumerate(x.attentions):
+    #      #   print(x_in["input_ids"].shape)
+    #    #     print(attention > 0.5)
+    #         attention_collapsed = torch.sum(attention > 0.5, dim = [1,3]) >= 1
+    #      #   print(attention_collapsed)
+    #         selected_input_ids = torch.masked_select(x_in["input_ids"], attention_collapsed)
+    #      #   print(selected_input_ids.shape)
+    #      #   self.interpretcount.index_add_()
+    #      #   print(selected_input_ids.device)
             
-            # self.interpretcount = self.interpretcount.to(selected_input_ids.device)
+    #         # self.interpretcount = self.interpretcount.to(selected_input_ids.device)
 
-            # print(self.interpretcount[i].device)
-            # newcount = torch.clone(self.interpretcount[i].index_add_(0,selected_input_ids, torch.ones([1, 1], device=selected_input_ids.device)))
-            for id in selected_input_ids:
-                self.interpretcount[i,id] += 1
-          #  print(newcount == self.interpretcount[i,id])
-        x = x.last_hidden_state
+    #         # print(self.interpretcount[i].device)
+    #         # newcount = torch.clone(self.interpretcount[i].index_add_(0,selected_input_ids, torch.ones([1, 1], device=selected_input_ids.device)))
+    #         for id in selected_input_ids:
+    #             self.interpretcount[i,id] += 1
+    #       #  print(newcount == self.interpretcount[i,id])
+        x = x.hidden_states[-1]
         x = x[:, self.lasthiddenstate]
         if self.second_head:
             x = self.fc2(x)
@@ -187,6 +246,8 @@ class NLP_embedder(nn.Module):
 #                                                                         gamma = 0.9999)
 #                 )
         
+
+
         accuracy = None
         for e in range(epochs):
             start = time.time()
@@ -204,7 +265,10 @@ class NLP_embedder(nn.Module):
                 for i in range(self.args.number_of_diff_lrs):
                     self.optimizer[i].zero_grad()
                 y_pred = self(batch_x)
-                loss = self.criterion(y_pred, batch_y)          
+                if self.use_ewc:
+                    loss = self.criterion(y_pred, batch_y)  + self.importance * self.ewc.penalty(self)  
+                else:
+                    loss = self.criterion(y_pred, batch_y)    
                 loss.backward()
                 for i in range(self.args.number_of_diff_lrs):
                     self.optimizer[i].step()

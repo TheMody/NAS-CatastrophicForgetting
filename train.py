@@ -105,7 +105,7 @@ def train(args, config):
     average_lr = [3.29537129e-06, 4.36300010e-06, 9.21473516e-07, 1.92275197e-06,
                     2.84902669e-06 ,2.14311562e-06 ,3.26747809e-06, 3.69894365e-06,
                     3.18562234e-06, 1.11884272e-05]
-    base_lr = 1e-5
+    base_lr = 2e-5
     average_lr_int = np.asarray([1,1,0.3,0.7,1,1,1,1,1,3]) * base_lr
     avg_lr_dict = [{"lr": a} for a in average_lr_int]
 
@@ -116,9 +116,9 @@ def train(args, config):
             def __init__(self):
                 return
         args = dummy()
-        args.number_of_diff_lrs = 1
-       # args.opts = avg_lr_dict
-        args.opts = [{"lr": 2e-5}]
+        args.number_of_diff_lrs = 10
+        args.opts = avg_lr_dict
+       # args.opts = [{"lr": 2e-5}]
         num_classes = 2
         if "mnli" in dataset:
             num_classes = 3

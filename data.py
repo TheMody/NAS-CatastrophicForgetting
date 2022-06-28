@@ -19,6 +19,7 @@ def load_data(name="sst2"):
     
 #     if name not in task_list:
 #         print("dataset not suported")
+   
     if "sst2" in name:
         data = tfds.load('glue/sst2', split=split, shuffle_files=False)
         
@@ -191,6 +192,13 @@ def load_data(name="sst2"):
 #     print("test" , X_test[0:2])
 #     print(y_test[0:2])
     return X,X_val, X_test, torch.LongTensor(y), torch.LongTensor(y_val), torch.LongTensor(y_test)
+
+def load_wiki():
+    data = tfds.load('wiki40b/en', split="train[:25000]", shuffle_files=False)
+    
+    X = [str(e["text"].numpy()) for e in data]
+    return X
+
 
 from torch.utils.data import Dataset
 

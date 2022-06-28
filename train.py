@@ -15,7 +15,7 @@ from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import cross_val_score
 from sklearn.cluster import KMeans
 import time
-from data import load_data, SimpleDataset
+from data import load_data, SimpleDataset, load_wiki
 from torch.utils.data import DataLoader
 from plot import plot_TSNE_clustering
 # Fixing seed for reproducibility
@@ -83,6 +83,7 @@ def train(args, config):
     batch_size = int(config["DEFAULT"]["batch_size"])
 
     dataset = config["DEFAULT"]["dataset"]
+    ewc = config["DEFAULT"]["ewc"] == "True"
     dataset2 = config["DEFAULT"]["dataset2"]
     baseline = config["DEFAULT"]["baseline"] == "True"
     baseline_only = config["DEFAULT"]["baseline_only"] == "True"
@@ -116,9 +117,9 @@ def train(args, config):
             def __init__(self):
                 return
         args = dummy()
-        args.number_of_diff_lrs = 10
-        args.opts = avg_lr_dict
-       # args.opts = [{"lr": 2e-5}]
+        args.number_of_diff_lrs = 1
+       # args.opts = avg_lr_dict
+        args.opts = [{"lr": 2e-5}]
         num_classes = 2
         if "mnli" in dataset:
             num_classes = 3
@@ -126,7 +127,7 @@ def train(args, config):
         if "mnli" in dataset2:
             num_classes2 = 3
       #  print("loading model")
-        model = NLP_embedder(num_classes = num_classes, num_classes2 = num_classes2,batch_size = batch_size,args =  args)
+        model = NLP_embedder(num_classes = num_classes, num_classes2 = num_classes2,batch_size = batch_size,args =  args, use_ewc=ewc)
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model = model.to(device)
     #    print("loading dataset")

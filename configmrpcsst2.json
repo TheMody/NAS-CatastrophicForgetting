@@ -1,7 +1,7 @@
 [DEFAULT]
 batch_size = 8
 checkpoint = None
-directory = results/mrpcsst2base
+directory = results/mrpcsst2baseewc
 seed = 42
 epochs = 5
 num_trials = 50
@@ -10,3 +10,4 @@ dataset2 = sst2
 baseline = True
 shift_type = taskshift
 baseline_only = True
+ewc = True

@@ -11,6 +11,8 @@ from transformers import glue_convert_examples_to_features, DataCollatorForLangu
 from copy import deepcopy
 from torch.autograd import variable
 from torch.utils.data import DataLoader
+from data import load_wiki
+import os
 
 logging.set_verbosity_error()
 #import nvidia_smi
@@ -53,17 +55,30 @@ class CosineScheduler(optim.lr_scheduler._LRScheduler):
         return lr_factor
 
 class EWC(object):
-    def __init__(self, model: nn.Module, dataset: list, tokenizer):
-
+    def __init__(self, model: nn.Module, tokenizer, batch_size):
+        self.batch_size = batch_size
         self.model = model
-        self.dataset = dataset
+        self.dataset = load_wiki()
+        # for entry in self.dataset:
+        #     print(entry)
         self.tokenizer = tokenizer
         self.params = {n: p for n, p in self.model.named_parameters() if p.requires_grad}
         self._means = {}
-        self._precision_matrices = self._diag_fisher()
+
+        filename = "p_mat.pt"
+        if os.path.exists(filename):
+            self._precision_matrices = torch.load(filename)
+        else:
+            self._precision_matrices = self._diag_fisher()
+            torch.save(self._precision_matrices, filename)
 
         for n, p in deepcopy(self.params).items():
             self._means[n] = variable(p.data)
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        for key in self._means:
+            self._means[key] = self._means[key].to(device)
+        for key in self._precision_matrices:
+            self._precision_matrices[key] = self._precision_matrices[key].to(device)
 
     def mask(self,tensor, mlm_prob = 0.15):
         mlmmask = torch.rand(tensor.shape) > mlm_prob 
@@ -77,17 +92,32 @@ class EWC(object):
 
         self.model.eval()
 
-        for input in self.dataset: #todo batching
+      #  for i,input in enumerate(self.dataset): #todo batching
+        
+        for i in range(math.ceil(len(self.dataset) / self.batch_size)):
+              #  batch_x, batch_y = next(iter(data))
+           # start = time.time()
+            ul = min((i+1) * self.batch_size, len(self.dataset))
+            batch_x = self.dataset[i*self.batch_size: ul]
             self.model.zero_grad()
-            labels = self.tokenizer(input, return_tensors="pt", padding=True, max_length = 256, truncation = True)["input_ids"]
-            input = self.mask(self.tokenizer(input, return_tensors="pt", padding=True, max_length = 256, truncation = True))
-            labels = torch.where(input.input_ids == self.tokenizer.mask_token_id, labels, -100)
+            labels = self.tokenizer(batch_x, return_tensors="pt", padding=True, max_length = 256, truncation = True)["input_ids"]
+            input = self.tokenizer(batch_x, return_tensors="pt", padding=True, max_length = 256, truncation = True)
+            input["input_ids"] = self.mask(input["input_ids"])
+            labels = torch.where(input["input_ids"] == self.tokenizer.mask_token_id, labels, -100)
+           # print("processing inputs took:",time.time()-start)
+           # start = time.time()
             output = self.model(**input, labels = labels)
+           # print("forward pass took:",time.time()-start)
+            #start = time.time()
             loss = output.loss
             loss.backward()
-
+          #  print("backward pass took:",time.time()-start)
+          #  start = time.time()
             for n, p in self.model.named_parameters():
-                precision_matrices[n].data += p.grad.data ** 2 / len(self.dataset)
+                precision_matrices[n].data += p.grad.data ** 2 / (len(self.dataset)/self.batch_size)
+           # print("matrix add pass took:",time.time()-start)
+            if i % 10 == 0:
+                print("at", ul , "of", len(self.dataset))
 
         precision_matrices = {n: p for n, p in precision_matrices.items()}
         return precision_matrices
@@ -103,7 +133,7 @@ class EWC(object):
 
 class NLP_embedder(nn.Module):
 
-    def __init__(self,  num_classes,num_classes2, batch_size, args,use_ewc = False,ewc_ds = None):
+    def __init__(self,  num_classes,num_classes2, batch_size, args,use_ewc = False):
         super(NLP_embedder, self).__init__()
         self.type = 'nn'
         self.batch_size = batch_size
@@ -122,7 +152,7 @@ class NLP_embedder(nn.Module):
         num_layers = 12
         self.use_ewc = use_ewc
         if use_ewc:
-            self.ewc = EWC(self.model,ewc_ds)
+            self.ewc = EWC(self.model, self.tokenizer, batch_size)
 
 
 
@@ -266,7 +296,7 @@ class NLP_embedder(nn.Module):
                     self.optimizer[i].zero_grad()
                 y_pred = self(batch_x)
                 if self.use_ewc:
-                    loss = self.criterion(y_pred, batch_y)  + self.importance * self.ewc.penalty(self)  
+                    loss = self.criterion(y_pred, batch_y)  + self.importance * self.ewc.penalty(self.model)  
                 else:
                     loss = self.criterion(y_pred, batch_y)    
                 loss.backward()
